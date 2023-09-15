@@ -1,4 +1,0 @@
-package idolgroup
-
-class IdolgroupManagement {
-}
