@@ -1,5 +1,0 @@
-package company
-
-class CompanyManagement {
-
-}

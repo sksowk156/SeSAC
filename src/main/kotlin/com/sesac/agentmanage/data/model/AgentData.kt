@@ -1,4 +1,4 @@
-package data.model
+package com.sesac.agentmanage.data.model
 
 import java.io.Serializable
 

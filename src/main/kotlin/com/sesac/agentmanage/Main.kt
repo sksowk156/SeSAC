@@ -1,7 +1,8 @@
-import io.IOManage
+package com.sesac.agentmanage
+
+import com.sesac.agentmanage.io.IOManage
 
 fun main(args: Array<String>) {
-    val ioManage = IOManage.getIOManage()
     var line: String?
     line = IOManage.consoleScanner()
 

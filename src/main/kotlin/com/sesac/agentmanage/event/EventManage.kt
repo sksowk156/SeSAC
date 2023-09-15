@@ -1,7 +1,7 @@
-package event
+package com.sesac.agentmanage.event
 
-import data.model.Event
-import data.SerializeData
+import com.sesac.agentmanage.data.model.Event
+import com.sesac.agentmanage.data.SerializeData
 
 class EventManage {
     companion object {

@@ -1,7 +1,7 @@
-package data
+package com.sesac.agentmanage.data
 
-import data.model.Event
-import data.model.Idolgroup
+import com.sesac.agentmanage.data.model.Event
+import com.sesac.agentmanage.data.model.Idolgroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext

@@ -1,8 +1,8 @@
-package idolgroup
+package com.sesac.agentmanage.idolgroup
 
-import data.model.Idolgroup
-import data.SerializeData
-import data.model.Idol
+import com.sesac.agentmanage.data.model.Idolgroup
+import com.sesac.agentmanage.data.SerializeData
+import com.sesac.agentmanage.data.model.Idol
 
 class IdolgroupManage private constructor() {
     companion object {

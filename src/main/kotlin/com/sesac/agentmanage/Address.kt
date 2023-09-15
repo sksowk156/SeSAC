@@ -1,3 +1,5 @@
+package com.sesac.agentmanage
+
 enum class Address(val regionName: String) {
     SEOUL("서울"),
     DAEGU("대구"),
