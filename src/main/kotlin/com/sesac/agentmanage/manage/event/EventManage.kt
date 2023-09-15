@@ -1,10 +1,10 @@
-package com.sesac.agentmanage.event
+package com.sesac.agentmanage.manage.event
 
 import com.sesac.agentmanage.data.model.Event
 import com.sesac.agentmanage.data.SerializeData
 import com.sesac.agentmanage.data.model.Idolgroup
 
-class EventManage private constructor(){
+class EventManage private constructor() {
     companion object {
         private var instance: EventManage? = null
         fun getEventManagement(): EventManage =
@@ -13,10 +13,7 @@ class EventManage private constructor(){
 
     private val serializeData = SerializeData.getSerializeData()
     private val eventList = serializeData.DeserializeEventList()
-
-    fun getEventList() { // 조회
-        println(eventList)
-    }
+    fun getEventList() = eventList   // 조회
 
     fun getEventListByGroupName(name: String) { // 아이돌 그룹명으로 참가 행사 조회
         val eventList = eventList.filter { it.idolgroup.any { it.name == name } }
