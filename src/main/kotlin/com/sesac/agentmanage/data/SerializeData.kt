@@ -75,10 +75,11 @@ class SerializeData private constructor() {
 
     fun DeserializeCompanyList() = runBlocking {
         val companyList = withContext(Dispatchers.IO) {
-            ObjectInputStream(FileInputStream("./agentFiles/idolgroup.ser")).use {
+
+            ObjectInputStream(FileInputStream("./agentFiles/companyList.ser")).use {
                 it.readObject() as MutableList<Company>
             }
         }
-        println(companyList)
+        companyList
     }
 }

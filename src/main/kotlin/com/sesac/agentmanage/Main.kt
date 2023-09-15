@@ -1,6 +1,6 @@
 package com.sesac.agentmanage
 
-import com.sesac.agentmanage.io.IOManage
+import com.sesac.agentmanage.utils.IOManage
 
 fun main(args: Array<String>) {
     var line: String?

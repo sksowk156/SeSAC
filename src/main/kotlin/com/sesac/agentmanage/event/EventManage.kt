@@ -2,54 +2,59 @@ package com.sesac.agentmanage.event
 
 import com.sesac.agentmanage.data.model.Event
 import com.sesac.agentmanage.data.SerializeData
+import com.sesac.agentmanage.data.model.Idolgroup
 
-class EventManage {
+class EventManage private constructor(){
     companion object {
         private var instance: EventManage? = null
         fun getEventManagement(): EventManage =
             instance ?: EventManage().also { instance = it }
     }
 
-    private val eventList = SerializeData.getSerializeData().DeserializeEventList()
+    private val serializeData = SerializeData.getSerializeData()
+    private val eventList = serializeData.DeserializeEventList()
 
     fun getEventList() { // 조회
         println(eventList)
     }
 
-    fun getEventListByName(name: String) { // 조회
-        val Event: Event? = eventList.find { it.name == name }
-        if (Event != null) {
-            println(Event)
+    fun getEventListByGroupName(name: String) { // 아이돌 그룹명으로 참가 행사 조회
+        val eventList = eventList.filter { it.idolgroup.any { it.name == name } }
+        if (eventList.isNotEmpty()) {
+            println(eventList)
         } else {
-            println("해당 아이돌 그룹의 정보가 없습니다.")
+            println("해당 아이돌 그룹이 참여하는 행사는 없습니다.")
         }
     }
 
-//    fun getEventListByCompany(name: String) { // 조회
-//        val Event: Event? = eventList.find { it.company.name == name }
-//        if (Event != null) {
-//            println(Event)
-//        } else {
-//            println("해당 아이돌 그룹의 정보가 없습니다.")
-//        }
-//    }
+    fun deleteEvent(event: Event) { // 삭제
+        if (eventList.remove(event)) {
+            println("삭제 성공")
+        } else {
+            println("삭제 실패")
+        }
+        serializeData.serializeEventList(eventList)
+    }
 
     fun setEventList(Event: Event) { // 등록
         eventList.add(Event)
+
+        serializeData.serializeEventList(eventList)
     }
 
-    fun updateEvent(Event: Event, index: Int, name: String) { // 수정
-        val Event: Event? = eventList.find { it == Event }
-        when (index) {
-            1 -> {}
-            2 -> {}
-            3 -> {}
-            else -> {}
-        }
+    fun updateEventAddIdolgroup(event: Event, idolgroup: Idolgroup) { // 수정
+        val newEvent: Event? = eventList.find { it == event }
+        newEvent?.idolgroup?.add(idolgroup)
+        eventList[eventList.indexOf(event)] = newEvent!!
+
+        serializeData.serializeEventList(eventList)
     }
 
-    fun deleteEvent() { // 삭제
+    fun updateEventRemoveIdolgroup(event: Event, idolgroup: Idolgroup) { // 수정
+        val newEvent: Event? = eventList.find { it == event }
+        newEvent?.idolgroup?.remove(idolgroup)
+        eventList[eventList.indexOf(event)] = newEvent!!
 
+        serializeData.serializeEventList(eventList)
     }
-
 }

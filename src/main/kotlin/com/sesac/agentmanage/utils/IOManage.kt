@@ -1,4 +1,4 @@
-package com.sesac.agentmanage.io
+package com.sesac.agentmanage.utils
 
 import java.io.BufferedReader
 import java.util.Scanner
