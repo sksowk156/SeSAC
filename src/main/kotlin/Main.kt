@@ -1,7 +1,59 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import io.IOManage
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main(args: Array<String>) {
+    val ioManage = IOManage.getIOManage()
+    var line: String?
+    line = IOManage.consoleScanner()
+
+
+    while (!line.isNullOrEmpty() && !line.equals("exit", true)) {
+        val list = line.split(",")
+
+        line = IOManage.consoleScanner()
+    }
+
+//    val temp = mutableListOf<Idolgroup>()
+//    temp.add(
+//        Idolgroup(
+//            "신진혁",
+//            2,
+//            mutableListOf<Idol>(Idol("신진혁", 2), Idol("신진혁", 2), Idol("신진혁", 2)),
+//            Company("sm", "서울", "r김덕배", "01021")
+//        )
+//    )
+//    temp.add(
+//        Idolgroup(
+//            "신진혁",
+//            2,
+//            mutableListOf<Idol>(Idol("신진혁", 2), Idol("신진혁", 2), Idol("신진혁", 2)),
+//            Company("sm", "서울", "r김덕배", "01021")
+//        )
+//    )
+//    temp.add(
+//        Idolgroup(
+//            "신진혁",
+//            2,
+//            mutableListOf<Idol>(Idol("신진혁", 2), Idol("신진혁", 2), Idol("신진혁", 2)),
+//            Company("sm", "서울", "r김덕배", "01021")
+//        )
+//    )
+//    temp.add(
+//        Idolgroup(
+//            "신진혁",
+//            2,
+//            mutableListOf<Idol>(Idol("신진혁", 2), Idol("신진혁", 2), Idol("신진혁", 2)),
+//            Company("sm", "서울", "r김덕배", "01021")
+//        )
+//    )
+//    temp.add(
+//        Idolgroup(
+//            "신진혁",
+//            2,
+//            mutableListOf<Idol>(Idol("신진혁", 2), Idol("신진혁", 2), Idol("신진혁", 2)),
+//            Company("sm", "서울", "r김덕배", "01021")
+//        )
+//    )
+
+//    ioManage.multiSerializeObject(temp)
+//    ioManage.multiDeserializeObject()
 }
