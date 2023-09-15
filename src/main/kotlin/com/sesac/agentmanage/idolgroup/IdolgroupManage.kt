@@ -10,6 +10,7 @@ class IdolgroupManage private constructor() {
         fun getIdolgroupManagement(): IdolgroupManage =
             instance ?: IdolgroupManage().also { instance = it }
     }
+
     private val serializeData = SerializeData.getSerializeData()
     private val idolgroupList = serializeData.DeserializeIdolgroupList()
 
@@ -49,14 +50,14 @@ class IdolgroupManage private constructor() {
         }
     }
 
-    fun addIdol(idol: Idol){
-        
+    fun addIdol(idol: Idol) {
+
     }
 
     fun deleteIdolgroup(idolgroup: Idolgroup) { // 삭제
-        if(idolgroupList.remove(idolgroup)){
+        if (idolgroupList.remove(idolgroup)) {
             println("삭제 성공")
-        }else{
+        } else {
             println("삭제 실패")
         }
         serializeData.serializeIdolgroupList(idolgroupList)
