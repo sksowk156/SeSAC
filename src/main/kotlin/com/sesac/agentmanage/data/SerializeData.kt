@@ -1,5 +1,6 @@
 package com.sesac.agentmanage.data
 
+import com.sesac.agentmanage.data.model.Company
 import com.sesac.agentmanage.data.model.Event
 import com.sesac.agentmanage.data.model.Idolgroup
 import kotlinx.coroutines.Dispatchers
@@ -10,8 +11,8 @@ import java.io.FileOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
-class SerializeData private constructor(){
-    companion object{
+class SerializeData private constructor() {
+    companion object {
         private var instance: SerializeData? = null
         fun getSerializeData(): SerializeData =
             instance ?: SerializeData().also { instance = it }
@@ -60,24 +61,24 @@ class SerializeData private constructor(){
     }
 
 
-//    // 회사
-//    fun serializeCompanyList(list: MutableList<Company>) = runBlocking {
-//        val message = withContext(Dispatchers.IO) {
-//            ObjectOutputStream(FileOutputStream("./agentFiles/companyList.ser")).use {
-//                it.writeObject(list)
-//                it.flush()
-//            }
-//            "회사 리스트 직렬화 성공!"
-//        }
-//        println(message)
-//    }
-//
-//    fun DeserializeCompanyList() = runBlocking {
-//        val companyList = withContext(Dispatchers.IO) {
-//            ObjectInputStream(FileInputStream("./agentFiles/idolgroup.ser")).use {
-//                it.readObject() as MutableList<Company>
-//            }
-//        }
-//        println(companyList)
-//    }
+    // 회사
+    fun serializeCompanyList(list: MutableList<Company>) = runBlocking {
+        val message = withContext(Dispatchers.IO) {
+            ObjectOutputStream(FileOutputStream("./agentFiles/companyList.ser")).use {
+                it.writeObject(list)
+                it.flush()
+            }
+            "회사 리스트 직렬화 성공!"
+        }
+        println(message)
+    }
+
+    fun DeserializeCompanyList() = runBlocking {
+        val companyList = withContext(Dispatchers.IO) {
+            ObjectInputStream(FileInputStream("./agentFiles/companyList.ser")).use {
+                it.readObject() as MutableList<Company>
+            }
+        }
+        companyList
+    }
 }
