@@ -13,6 +13,8 @@ data class Event(
     val place: Array<String>,
     val idolgroup: MutableList<Idolgroup>
 
+
+
 )
 
 data class Idol(
