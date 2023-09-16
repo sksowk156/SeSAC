@@ -16,7 +16,7 @@ data class Idol(
 data class Event(
     val name: String, // 행사 이름
     val date: String, // 행사 날짜
-    val place: Array<String>, // 행사 장소
+    val place: String, // 행사 장소
     val idolgroup: MutableList<Idolgroup> // 행사 참가 아이돌 그룹
 ) : Serializable
 

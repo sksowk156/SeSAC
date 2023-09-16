@@ -6,10 +6,7 @@ import com.sesac.agentmanage.data.model.Idolgroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
+import java.io.*
 
 class SerializeData private constructor() {
     companion object {
@@ -32,8 +29,20 @@ class SerializeData private constructor() {
 
     fun DeserializeIdolgroupList() = runBlocking {
         val idolgroupList = withContext(Dispatchers.IO) {
-            ObjectInputStream(FileInputStream("./agentFiles/idolgroupList.ser")).use {
-                it.readObject() as MutableList<Idolgroup>
+            val filePath = "./agentFiles/idolgroupList.ser"
+            val file = File(filePath)
+            if (file.exists() && !file.isDirectory) {
+                ObjectInputStream(FileInputStream("./agentFiles/idolgroupList.ser")).use {
+                    it.readObject() as MutableList<Idolgroup>
+                }
+            } else {
+                ObjectOutputStream(FileOutputStream("./agentFiles/idolgroupList.ser")).use {
+                    it.writeObject(mutableListOf<Idolgroup>())
+                    it.flush()
+                }
+                ObjectInputStream(FileInputStream("./agentFiles/idolgroupList.ser")).use {
+                    it.readObject() as MutableList<Idolgroup>
+                }
             }
         }
         idolgroupList
@@ -53,8 +62,20 @@ class SerializeData private constructor() {
 
     fun DeserializeEventList() = runBlocking {
         val eventList = withContext(Dispatchers.IO) {
-            ObjectInputStream(FileInputStream("./agentFiles/eventList.ser")).use {
-                it.readObject() as MutableList<Event>
+            val filePath = "./agentFiles/eventList.ser"
+            val file = File(filePath)
+            if (file.exists() && !file.isDirectory) {
+                ObjectInputStream(FileInputStream("./agentFiles/eventList.ser")).use {
+                    it.readObject() as MutableList<Event>
+                }
+            } else {
+                ObjectOutputStream(FileOutputStream("./agentFiles/eventList.ser")).use {
+                    it.writeObject(mutableListOf<Company>())
+                    it.flush()
+                }
+                ObjectInputStream(FileInputStream("./agentFiles/eventList.ser")).use {
+                    it.readObject() as MutableList<Event>
+                }
             }
         }
         eventList
@@ -75,9 +96,20 @@ class SerializeData private constructor() {
 
     fun DeserializeCompanyList() = runBlocking {
         val companyList = withContext(Dispatchers.IO) {
-
-            ObjectInputStream(FileInputStream("./agentFiles/companyList.ser")).use {
-                it.readObject() as MutableList<Company>
+            val filePath = "./agentFiles/companyList.ser"
+            val file = File(filePath)
+            if (file.exists() && !file.isDirectory) {
+                ObjectInputStream(FileInputStream("./agentFiles/companyList.ser")).use {
+                    it.readObject() as MutableList<Company>
+                }
+            } else {
+                ObjectOutputStream(FileOutputStream("./agentFiles/companyList.ser")).use {
+                    it.writeObject(mutableListOf<Company>())
+                    it.flush()
+                }
+                ObjectInputStream(FileInputStream("./agentFiles/companyList.ser")).use {
+                    it.readObject() as MutableList<Company>
+                }
             }
         }
         companyList

@@ -53,10 +53,14 @@ class IdolgroupManage private constructor() {
     }
 
     fun updateIdolgroupRemoveMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (삭제)
-        val newIdolgroup: Idolgroup? = idolgroupList.find { it == idolgroup }
-        newIdolgroup?.member?.remove(idol)
-        idolgroupList[idolgroupList.indexOf(idolgroup)] = newIdolgroup!!
+        val newIdolgroup: Idolgroup = idolgroupList.find { it == idolgroup }!!
+        if(newIdolgroup.member.contains(idol)){
+            newIdolgroup?.member?.remove(idol)
+            idolgroupList[idolgroupList.indexOf(idolgroup)] = newIdolgroup!!
 
-        serializeData.serializeIdolgroupList(idolgroupList)
+            serializeData.serializeIdolgroupList(idolgroupList)
+        }else{
+            println("해당 아이돌 정보는 없습니다.")
+        }
     }
 }
