@@ -1,8 +1,7 @@
-package com.sesac.agentmanage.idolgroup
+package com.sesac.agentmanage.manage.idolgroup
 
 import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.data.SerializeData
-import com.sesac.agentmanage.data.model.Company
 import com.sesac.agentmanage.data.model.Idol
 
 class IdolgroupManage private constructor() {
@@ -15,9 +14,8 @@ class IdolgroupManage private constructor() {
     private val serializeData = SerializeData.getSerializeData()
     private val idolgroupList = serializeData.DeserializeIdolgroupList()
 
-    fun getIdolgroupList() { // 전체 아이돌 그룹 조회
-        println(idolgroupList)
-    }
+    // 전체 아이돌 그룹 조회
+    fun getIdolgroupList() = idolgroupList
 
     fun setIdolgroupList(idolgroup: Idolgroup) { // 등록
         if (idolgroupList.add(idolgroup)) {
@@ -45,6 +43,7 @@ class IdolgroupManage private constructor() {
 
         serializeData.serializeIdolgroupList(idolgroupList)
     }
+
     fun updateIdolgroupAddMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (추가)
         val newIdolgroup: Idolgroup? = idolgroupList.find { it == idolgroup }
         newIdolgroup?.member?.add(idol)

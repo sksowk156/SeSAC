@@ -5,5 +5,5 @@ enum class Address(val regionName: String) {
     DAEGU("대구"),
     BUSAN("부산"),
     GWANGJU("광주"),
-    KYUNGKI("경기")
+    GYEOONGI("경기")
 }
