@@ -12,12 +12,15 @@ class IdolgroupManage private constructor() {
     }
 
     private val serializeData = SerializeData.getSerializeData()
-    private val idolgroupList = serializeData.DeserializeIdolgroupList()
+    private lateinit var idolgroupList: MutableList<Idolgroup>
 
     // 전체 아이돌 그룹 조회
-    fun getIdolgroupList() = idolgroupList
+    suspend fun getIdolgroupList(): MutableList<Idolgroup> {
+        idolgroupList = serializeData.DeserializeIdolgroupList()
+        return idolgroupList
+    }
 
-    fun setIdolgroupList(idolgroup: Idolgroup) { // 등록
+    suspend fun setIdolgroupList(idolgroup: Idolgroup) { // 등록
         if (idolgroupList.add(idolgroup)) {
             println("등록 성공")
         } else {
@@ -27,7 +30,7 @@ class IdolgroupManage private constructor() {
         serializeData.serializeIdolgroupList(idolgroupList)
     }
 
-    fun deleteIdolgroup(idolgroup: Idolgroup) { // 삭제
+    suspend fun deleteIdolgroup(idolgroup: Idolgroup) { // 삭제
         if (idolgroupList.remove(idolgroup)) {
             println("삭제 성공")
         } else {
@@ -36,7 +39,7 @@ class IdolgroupManage private constructor() {
         serializeData.serializeIdolgroupList(idolgroupList)
     }
 
-    fun updateIdolgroupName(idolgroup: Idolgroup, name: String) { // 그룹명 수정
+    suspend fun updateIdolgroupName(idolgroup: Idolgroup, name: String) { // 그룹명 수정
         val idolgroup: Idolgroup? = idolgroupList.find { it == idolgroup }
         idolgroup?.name = name
         idolgroupList[idolgroupList.indexOf(idolgroup)] = idolgroup!!
@@ -44,7 +47,7 @@ class IdolgroupManage private constructor() {
         serializeData.serializeIdolgroupList(idolgroupList)
     }
 
-    fun updateIdolgroupAddMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (추가)
+    suspend fun updateIdolgroupAddMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (추가)
         val newIdolgroup: Idolgroup? = idolgroupList.find { it == idolgroup }
         newIdolgroup?.member?.add(idol)
         idolgroupList[idolgroupList.indexOf(idolgroup)] = newIdolgroup!!
@@ -52,14 +55,14 @@ class IdolgroupManage private constructor() {
         serializeData.serializeIdolgroupList(idolgroupList)
     }
 
-    fun updateIdolgroupRemoveMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (삭제)
+    suspend fun updateIdolgroupRemoveMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (삭제)
         val newIdolgroup: Idolgroup = idolgroupList.find { it == idolgroup }!!
-        if(newIdolgroup.member.contains(idol)){
+        if (newIdolgroup.member.contains(idol)) {
             newIdolgroup?.member?.remove(idol)
             idolgroupList[idolgroupList.indexOf(idolgroup)] = newIdolgroup!!
 
             serializeData.serializeIdolgroupList(idolgroupList)
-        }else{
+        } else {
             println("해당 아이돌 정보는 없습니다.")
         }
     }

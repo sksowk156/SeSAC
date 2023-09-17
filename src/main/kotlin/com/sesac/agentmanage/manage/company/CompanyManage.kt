@@ -13,11 +13,14 @@ class CompanyManage private constructor() {
     }
 
     private val serializeData = SerializeData.getSerializeData()
-    private val companyList = serializeData.DeserializeCompanyList()
+    private lateinit var companyList : MutableList<Company>
     //회사 전체 조회
-    fun getCompanyList() = companyList
+    suspend fun getCompanyList() : MutableList<Company>{
+        companyList = serializeData.DeserializeCompanyList()
+        return companyList
+    }
 
-    fun getCompanyListByGroupName(name: String) { // 아이돌 그룹명으로 소속된 회사 조회
+    suspend fun getCompanyListByGroupName(name: String) { // 아이돌 그룹명으로 소속된 회사 조회
         val company = companyList.find { it.idolgroup.any { it.name == name } }
         if (company != null) {
             println(company)
@@ -26,16 +29,17 @@ class CompanyManage private constructor() {
         }
     }
 
-    fun deleteCompany(company: Company) { // 삭제
+    suspend fun deleteCompany(company: Company) { // 삭제
         if (companyList.remove(company)) {
             println("삭제 성공")
         } else {
             println("삭제 실패")
         }
+
         serializeData.serializeCompanyList(companyList)
     }
 
-    fun setCompanyList(company: Company) { // 등록
+    suspend fun setCompanyList(company: Company) { // 등록
         if(companyList.add(company)) {
             println("등록 성공")
         } else {
@@ -46,7 +50,7 @@ class CompanyManage private constructor() {
     }
 
 
-    fun updateCompanyAddIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정, 회사에 아이돌 그룹 추가
+    suspend fun updateCompanyAddIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정, 회사에 아이돌 그룹 추가
         val newCompany: Company? = companyList.find { it == company }
         newCompany?.idolgroup?.add(idolgroup)
         companyList[companyList.indexOf(company)] = newCompany!!
@@ -54,7 +58,7 @@ class CompanyManage private constructor() {
         serializeData.serializeCompanyList(companyList)
     }
 
-    fun updateCompanyRemoveIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정
+    suspend fun updateCompanyRemoveIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정
         val newCompany: Company? = companyList.find { it == company }
         newCompany?.idolgroup?.remove(idolgroup)
         companyList[companyList.indexOf(company)] = newCompany!!
