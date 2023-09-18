@@ -5,7 +5,7 @@ import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.utils.SerializeInterface
 
 class EventManage (private val serializedData: SerializeInterface<Event>) {
-     lateinit var eventList: MutableList<Event>
+    private lateinit var eventList: MutableList<Event>
     suspend fun getEventList(): MutableList<Event> { // 조회
         eventList = serializedData.DeserializeDataList()
         return eventList
