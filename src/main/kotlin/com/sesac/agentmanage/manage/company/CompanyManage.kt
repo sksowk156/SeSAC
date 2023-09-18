@@ -2,16 +2,14 @@ package com.sesac.agentmanage.manage.company
 
 import com.sesac.agentmanage.data.model.Company
 import com.sesac.agentmanage.data.model.Idolgroup
-import com.sesac.agentmanage.serialize.CompanySerialize
 import com.sesac.agentmanage.utils.SerializeInterface
 
 class CompanyManage (private val serializedData: SerializeInterface<Company>) {
     private lateinit var companyList: MutableList<Company>
-    private val companySerialize = serializedData
 
     //회사 전체 조회
     suspend fun getCompanyList(): MutableList<Company> {
-        companyList = companySerialize.DeserializeDataList()
+        companyList = serializedData.DeserializeDataList()
         return companyList
     }
 
@@ -24,7 +22,7 @@ class CompanyManage (private val serializedData: SerializeInterface<Company>) {
             println("삭제 실패")
         }
 
-        companySerialize.serializeDataList(companyList)
+        serializedData.serializeDataList(companyList)
     }
 
     suspend fun setCompanyList(company: Company) { // 등록
@@ -34,7 +32,7 @@ class CompanyManage (private val serializedData: SerializeInterface<Company>) {
             println("등록 실패")
         }
 
-        companySerialize.serializeDataList(companyList)
+        serializedData.serializeDataList(companyList)
     }
 
     suspend fun updateCompanyAddIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정, 회사에 아이돌 그룹 추가
@@ -42,7 +40,7 @@ class CompanyManage (private val serializedData: SerializeInterface<Company>) {
         newCompany?.idolgroup?.add(idolgroup)
         companyList[companyList.indexOf(company)] = newCompany!!
 
-        companySerialize.serializeDataList(companyList)
+        serializedData.serializeDataList(companyList)
     }
 
     suspend fun updateCompanyRemoveIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정
@@ -50,6 +48,6 @@ class CompanyManage (private val serializedData: SerializeInterface<Company>) {
         newCompany?.idolgroup?.remove(idolgroup)
         companyList[companyList.indexOf(company)] = newCompany!!
 
-        companySerialize.serializeDataList(companyList)
+        serializedData.serializeDataList(companyList)
     }
 }

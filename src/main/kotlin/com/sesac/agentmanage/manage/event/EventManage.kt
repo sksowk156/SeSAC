@@ -2,15 +2,12 @@ package com.sesac.agentmanage.manage.event
 
 import com.sesac.agentmanage.data.model.Event
 import com.sesac.agentmanage.data.model.Idolgroup
-import com.sesac.agentmanage.serialize.EventSerialize
 import com.sesac.agentmanage.utils.SerializeInterface
 
 class EventManage (private val serializedData: SerializeInterface<Event>) {
     private lateinit var eventList: MutableList<Event>
-    private val eventSerialize = serializedData
-
     suspend fun getEventList(): MutableList<Event> { // 조회
-        eventList = eventSerialize.DeserializeDataList()
+        eventList = serializedData.DeserializeDataList()
         return eventList
     }
 
@@ -22,7 +19,7 @@ class EventManage (private val serializedData: SerializeInterface<Event>) {
         } else {
             println("삭제 실패")
         }
-        eventSerialize.serializeDataList(eventList)
+        serializedData.serializeDataList(eventList)
     }
 
 //    fun getEventListByIdolgroup(idolgroup: Idolgroup) = eventList.filter { it.idolgroup.any { it == idolgroup } }
@@ -41,7 +38,7 @@ class EventManage (private val serializedData: SerializeInterface<Event>) {
             println("등록 실패")
         }
 
-        eventSerialize.serializeDataList(eventList)
+        serializedData.serializeDataList(eventList)
     }
 
     suspend fun updateEventAddIdolgroup(event: Event, idolgroup: Idolgroup) { // 수정
@@ -49,7 +46,7 @@ class EventManage (private val serializedData: SerializeInterface<Event>) {
         newEvent?.idolgroup?.add(idolgroup)
         eventList[eventList.indexOf(event)] = newEvent!!
 
-        eventSerialize.serializeDataList(eventList)
+        serializedData.serializeDataList(eventList)
     }
 
     suspend fun updateEventRemoveIdolgroup(event: Event, idolgroup: Idolgroup) { // 수정
@@ -57,6 +54,6 @@ class EventManage (private val serializedData: SerializeInterface<Event>) {
         newEvent?.idolgroup?.remove(idolgroup)
         eventList[eventList.indexOf(event)] = newEvent!!
 
-        eventSerialize.serializeDataList(eventList)
+        serializedData.serializeDataList(eventList)
     }
 }
