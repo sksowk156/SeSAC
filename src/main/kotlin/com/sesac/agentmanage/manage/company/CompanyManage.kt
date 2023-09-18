@@ -1,9 +1,8 @@
 package com.sesac.agentmanage.manage.company
 
-import com.sesac.agentmanage.data.SerializeData
 import com.sesac.agentmanage.data.model.Company
-
 import com.sesac.agentmanage.data.model.Idolgroup
+import com.sesac.agentmanage.serialize.CompanySerialize
 
 class CompanyManage private constructor() {
     companion object {
@@ -12,15 +11,16 @@ class CompanyManage private constructor() {
             instance ?: CompanyManage().also { instance = it }
     }
 
-    private val serializeData = SerializeData.getSerializeData()
-    private lateinit var companyList : MutableList<Company>
+    private lateinit var companyList: MutableList<Company>
+    private val companySerialize = CompanySerialize()
+
     //회사 전체 조회
-    suspend fun getCompanyList() : MutableList<Company>{
-        companyList = serializeData.DeserializeCompanyList()
+    suspend fun getCompanyList(): MutableList<Company> {
+        companyList = companySerialize.DeserializeDataList()
         return companyList
     }
 
-    suspend fun getCompanyListByGroupName(name: String) { // 아이돌 그룹명으로 소속된 회사 조회
+    fun getCompanyListByGroupName(name: String) { // 아이돌 그룹명으로 소속된 회사 조회
         val company = companyList.find { it.idolgroup.any { it.name == name } }
         if (company != null) {
             println(company)
@@ -36,17 +36,17 @@ class CompanyManage private constructor() {
             println("삭제 실패")
         }
 
-        serializeData.serializeCompanyList(companyList)
+        companySerialize.serializeDataList(companyList)
     }
 
     suspend fun setCompanyList(company: Company) { // 등록
-        if(companyList.add(company)) {
+        if (companyList.add(company)) {
             println("등록 성공")
         } else {
             println("등록 실패")
         }
 
-        serializeData.serializeCompanyList(companyList)
+        companySerialize.serializeDataList(companyList)
     }
 
 
@@ -55,7 +55,7 @@ class CompanyManage private constructor() {
         newCompany?.idolgroup?.add(idolgroup)
         companyList[companyList.indexOf(company)] = newCompany!!
 
-        serializeData.serializeCompanyList(companyList)
+        companySerialize.serializeDataList(companyList)
     }
 
     suspend fun updateCompanyRemoveIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정
@@ -63,7 +63,7 @@ class CompanyManage private constructor() {
         newCompany?.idolgroup?.remove(idolgroup)
         companyList[companyList.indexOf(company)] = newCompany!!
 
-        serializeData.serializeCompanyList(companyList)
+        companySerialize.serializeDataList(companyList)
     }
 
 

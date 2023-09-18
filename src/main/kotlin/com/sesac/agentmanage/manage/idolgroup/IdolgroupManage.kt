@@ -1,8 +1,8 @@
 package com.sesac.agentmanage.manage.idolgroup
 
-import com.sesac.agentmanage.data.model.Idolgroup
-import com.sesac.agentmanage.data.SerializeData
 import com.sesac.agentmanage.data.model.Idol
+import com.sesac.agentmanage.data.model.Idolgroup
+import com.sesac.agentmanage.serialize.IdolgroupSerialize
 
 class IdolgroupManage private constructor() {
     companion object {
@@ -11,12 +11,12 @@ class IdolgroupManage private constructor() {
             instance ?: IdolgroupManage().also { instance = it }
     }
 
-    private val serializeData = SerializeData.getSerializeData()
     private lateinit var idolgroupList: MutableList<Idolgroup>
+    private val idolgroupSerialize = IdolgroupSerialize()
 
     // 전체 아이돌 그룹 조회
     suspend fun getIdolgroupList(): MutableList<Idolgroup> {
-        idolgroupList = serializeData.DeserializeIdolgroupList()
+        idolgroupList = idolgroupSerialize.DeserializeDataList()
         return idolgroupList
     }
 
@@ -27,7 +27,7 @@ class IdolgroupManage private constructor() {
             println("등록 실패")
         }
 
-        serializeData.serializeIdolgroupList(idolgroupList)
+        idolgroupSerialize.serializeDataList(idolgroupList)
     }
 
     suspend fun deleteIdolgroup(idolgroup: Idolgroup) { // 삭제
@@ -36,7 +36,7 @@ class IdolgroupManage private constructor() {
         } else {
             println("삭제 실패")
         }
-        serializeData.serializeIdolgroupList(idolgroupList)
+        idolgroupSerialize.serializeDataList(idolgroupList)
     }
 
     suspend fun updateIdolgroupName(idolgroup: Idolgroup, name: String) { // 그룹명 수정
@@ -44,7 +44,7 @@ class IdolgroupManage private constructor() {
         idolgroup?.name = name
         idolgroupList[idolgroupList.indexOf(idolgroup)] = idolgroup!!
 
-        serializeData.serializeIdolgroupList(idolgroupList)
+        idolgroupSerialize.serializeDataList(idolgroupList)
     }
 
     suspend fun updateIdolgroupAddMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (추가)
@@ -52,7 +52,7 @@ class IdolgroupManage private constructor() {
         newIdolgroup?.member?.add(idol)
         idolgroupList[idolgroupList.indexOf(idolgroup)] = newIdolgroup!!
 
-        serializeData.serializeIdolgroupList(idolgroupList)
+        idolgroupSerialize.serializeDataList(idolgroupList)
     }
 
     suspend fun updateIdolgroupRemoveMember(idolgroup: Idolgroup, idol: Idol) { // 멤버 수정 (삭제)
@@ -61,7 +61,7 @@ class IdolgroupManage private constructor() {
             newIdolgroup?.member?.remove(idol)
             idolgroupList[idolgroupList.indexOf(idolgroup)] = newIdolgroup!!
 
-            serializeData.serializeIdolgroupList(idolgroupList)
+            idolgroupSerialize.serializeDataList(idolgroupList)
         } else {
             println("해당 아이돌 정보는 없습니다.")
         }
