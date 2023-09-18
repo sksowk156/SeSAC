@@ -29,7 +29,15 @@ class IOManage private constructor() {
     private val companyManage = CompanyManage(CompanySerialize())
     private val eventManage = EventManage(EventSerialize())
     private val idolgroupManage = IdolgroupManage(IdolgroupSerialize())
+
+    suspend fun loadData() {
+        companyManage.getCompanyList()
+        eventManage.getEventList()
+        idolgroupManage.getIdolgroupList()
+    }
+
     suspend fun askFirstQuestion() {
+        loadData()
         println("1. 행사 리스트, 2. 회사 리스트, 3. 아이돌 리스트, \"exit\"를 쓰면 종료됩니다.")
         var nextLine: String? = consoleScanner()
         while (!nextLine.isNullOrEmpty() && !nextLine.equals("exit", true)) {
@@ -271,9 +279,15 @@ class IOManage private constructor() {
                 2 -> {
                     println("삭제할 아이돌을 입력하세요")
                     nextLine = consoleScanner()
-                    val idol = idolgroupManage.getIdolgroupList().find { it.name == nextLine }
-                    if (idol != null) {
-                        idolgroupManage.deleteIdolgroup(idol)
+                    val idolgroup = idolgroupManage.getIdolgroupList().find { it.name == nextLine }
+                    if (idolgroup != null) {
+                        idolgroupManage.deleteIdolgroup(idolgroup)
+                        // 이벤트 업데이트
+                        val eventUpdate = eventManage.getEventListByGroupName(idolgroup.name)
+                        eventUpdate.forEach { eventManage.updateEventRemoveIdolgroup(it, idolgroup) }
+                        // 회사 업데이트
+                        val companyUpdate = companyManage.getCompanyListByGroupName(idolgroup.name)
+                        if (companyUpdate != null) companyManage.updateCompanyRemoveIdolgroup(companyUpdate, idolgroup)
                     } else {
                         println("다시 입력하세요")
                     }
@@ -282,7 +296,7 @@ class IOManage private constructor() {
                 3 -> {
                     println("편집할 아이돌 그룹명을 쓰세요, \"exit\"를 쓰면 종료됩니다.")
                     nextLine = consoleScanner()
-                    askIdolListUpdate(line)
+                    askIdolListUpdate(nextLine)
                 }
 
                 else -> {
@@ -317,6 +331,7 @@ class IOManage private constructor() {
 
     private suspend fun askIdolListUpdate(line: String?) {
         var nextLine = line
+        println(nextLine)
         while (!nextLine.isNullOrEmpty() && !nextLine.equals("exit", true)) {
             val idolgroup = idolgroupManage.getIdolgroupList().find { it.name == nextLine }
             if (idolgroup != null) {
@@ -343,6 +358,8 @@ class IOManage private constructor() {
                         println("번호가 없습니다.")
                     }
                 }
+            } else {
+                println("입력하신 아이돌 그룹은 없습니다.")
             }
             println("편집할 아이돌 그룹명을 쓰세요, \"exit\"를 쓰면 종료됩니다. ")
             nextLine = consoleScanner()

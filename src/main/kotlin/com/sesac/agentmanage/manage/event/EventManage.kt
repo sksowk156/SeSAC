@@ -5,7 +5,7 @@ import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.utils.SerializeInterface
 
 class EventManage (private val serializedData: SerializeInterface<Event>) {
-    private lateinit var eventList: MutableList<Event>
+     lateinit var eventList: MutableList<Event>
     suspend fun getEventList(): MutableList<Event> { // 조회
         eventList = serializedData.DeserializeDataList()
         return eventList
@@ -21,15 +21,6 @@ class EventManage (private val serializedData: SerializeInterface<Event>) {
         }
         serializedData.serializeDataList(eventList)
     }
-
-//    fun getEventListByIdolgroup(idolgroup: Idolgroup) = eventList.filter { it.idolgroup.any { it == idolgroup } }
-//    fun updateEventListByIdolgroup(eventListIdolgroup: List<Event>, idolgroup: Idolgroup) { // 수정
-//        getEventListByIdolgroup(idolgroup).forEach { i ->
-//            val idx = eventList.indexOf(i)
-//            i.idolgroup.remove(idolgroup)
-//            eventList[idx] = i
-//        }
-//    }
 
     suspend fun setEventList(Event: Event) { // 등록
         if (eventList.add(Event)) {

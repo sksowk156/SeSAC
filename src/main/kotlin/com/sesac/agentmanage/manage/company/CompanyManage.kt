@@ -4,8 +4,8 @@ import com.sesac.agentmanage.data.model.Company
 import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.utils.SerializeInterface
 
-class CompanyManage (private val serializedData: SerializeInterface<Company>) {
-    private lateinit var companyList: MutableList<Company>
+class CompanyManage(private val serializedData: SerializeInterface<Company>) {
+     lateinit var companyList: MutableList<Company>
 
     //회사 전체 조회
     suspend fun getCompanyList(): MutableList<Company> {
@@ -14,7 +14,6 @@ class CompanyManage (private val serializedData: SerializeInterface<Company>) {
     }
 
     fun getCompanyListByGroupName(name: String) = companyList.find { it.idolgroup.any { it.name == name } }
-
     suspend fun deleteCompany(company: Company) { // 삭제
         if (companyList.remove(company)) {
             println("삭제 성공")
