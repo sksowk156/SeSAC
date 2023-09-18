@@ -3,16 +3,11 @@ package com.sesac.agentmanage.manage.idolgroup
 import com.sesac.agentmanage.data.model.Idol
 import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.serialize.IdolgroupSerialize
+import com.sesac.agentmanage.utils.SerializeInterface
 
-class IdolgroupManage private constructor() {
-    companion object {
-        private var instance: IdolgroupManage? = null
-        fun getIdolgroupManagement(): IdolgroupManage =
-            instance ?: IdolgroupManage().also { instance = it }
-    }
-
+class IdolgroupManage (private val serializedData: SerializeInterface<Idolgroup>) {
     private lateinit var idolgroupList: MutableList<Idolgroup>
-    private val idolgroupSerialize = IdolgroupSerialize()
+    private val idolgroupSerialize = serializedData
 
     // 전체 아이돌 그룹 조회
     suspend fun getIdolgroupList(): MutableList<Idolgroup> {

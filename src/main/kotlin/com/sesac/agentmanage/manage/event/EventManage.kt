@@ -3,29 +3,18 @@ package com.sesac.agentmanage.manage.event
 import com.sesac.agentmanage.data.model.Event
 import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.serialize.EventSerialize
+import com.sesac.agentmanage.utils.SerializeInterface
 
-class EventManage private constructor() {
-    companion object {
-        private var instance: EventManage? = null
-        fun getEventManagement(): EventManage = instance ?: EventManage().also { instance = it }
-    }
-
+class EventManage (private val serializedData: SerializeInterface<Event>) {
     private lateinit var eventList: MutableList<Event>
-    private val eventSerialize = EventSerialize()
+    private val eventSerialize = serializedData
 
     suspend fun getEventList(): MutableList<Event> { // 조회
         eventList = eventSerialize.DeserializeDataList()
         return eventList
     }
 
-    fun getEventListByGroupName(name: String) { // 아이돌 그룹명으로 참가 행사 조회
-        val eventList = eventList.filter { it.idolgroup.any { it.name == name } }
-        if (eventList.isNotEmpty()) {
-            println(eventList)
-        } else {
-            println("해당 아이돌 그룹이 참여하는 행사는 없습니다.")
-        }
-    }
+    fun getEventListByGroupName(name: String) = eventList.filter { it.idolgroup.any { it.name == name } }
 
     suspend fun deleteEvent(event: Event) { // 삭제
         if (eventList.remove(event)) {

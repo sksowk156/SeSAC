@@ -3,16 +3,11 @@ package com.sesac.agentmanage.manage.company
 import com.sesac.agentmanage.data.model.Company
 import com.sesac.agentmanage.data.model.Idolgroup
 import com.sesac.agentmanage.serialize.CompanySerialize
+import com.sesac.agentmanage.utils.SerializeInterface
 
-class CompanyManage private constructor() {
-    companion object {
-        private var instance: CompanyManage? = null
-        fun getCompanyManagement(): CompanyManage =
-            instance ?: CompanyManage().also { instance = it }
-    }
-
+class CompanyManage (private val serializedData: SerializeInterface<Company>) {
     private lateinit var companyList: MutableList<Company>
-    private val companySerialize = CompanySerialize()
+    private val companySerialize = serializedData
 
     //회사 전체 조회
     suspend fun getCompanyList(): MutableList<Company> {
@@ -20,14 +15,7 @@ class CompanyManage private constructor() {
         return companyList
     }
 
-    fun getCompanyListByGroupName(name: String) { // 아이돌 그룹명으로 소속된 회사 조회
-        val company = companyList.find { it.idolgroup.any { it.name == name } }
-        if (company != null) {
-            println(company)
-        } else {
-            println("해당 아이돌 그룹이 소속된 회사는 없습니다.")
-        }
-    }
+    fun getCompanyListByGroupName(name: String) = companyList.find { it.idolgroup.any { it.name == name } }
 
     suspend fun deleteCompany(company: Company) { // 삭제
         if (companyList.remove(company)) {
@@ -49,7 +37,6 @@ class CompanyManage private constructor() {
         companySerialize.serializeDataList(companyList)
     }
 
-
     suspend fun updateCompanyAddIdolgroup(company: Company, idolgroup: Idolgroup) { // 수정, 회사에 아이돌 그룹 추가
         val newCompany: Company? = companyList.find { it == company }
         newCompany?.idolgroup?.add(idolgroup)
@@ -65,6 +52,4 @@ class CompanyManage private constructor() {
 
         companySerialize.serializeDataList(companyList)
     }
-
-
 }
